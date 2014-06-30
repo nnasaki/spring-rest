@@ -30,16 +30,7 @@ public class AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    /**
-     * Returns the identifier of the entity.
-     *
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+    public Long id;
 
     /*
      * (non-Javadoc)
@@ -58,7 +49,7 @@ public class AbstractEntity {
 
         AbstractEntity that = (AbstractEntity) obj;
 
-        return this.id.equals(that.getId());
+        return this.id.equals(that.id);
     }
 
     /*

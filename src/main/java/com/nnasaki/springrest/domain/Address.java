@@ -26,10 +26,11 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  */
+@SuppressWarnings("UnusedDeclaration")
 @Entity
 public class Address extends AbstractEntity {
 
-    private String street, city, country;
+    public String street, city, country;
 
     /**
      * Creates a new {@link Address} from the given street, city and country.
@@ -51,41 +52,5 @@ public class Address extends AbstractEntity {
 
     protected Address() {
 
-    }
-
-    /**
-     * Returns a copy of the current {@link Address} instance which is a new entity in terms of persistence.
-     *
-     * @return
-     */
-    public Address getCopy() {
-        return new Address(this.street, this.city, this.country);
-    }
-
-    /**
-     * Returns the street.
-     *
-     * @return
-     */
-    public String getStreet() {
-        return street;
-    }
-
-    /**
-     * Returns the city.
-     *
-     * @return
-     */
-    public String getCity() {
-        return city;
-    }
-
-    /**
-     * Returns the country.
-     *
-     * @return
-     */
-    public String getCountry() {
-        return country;
     }
 }

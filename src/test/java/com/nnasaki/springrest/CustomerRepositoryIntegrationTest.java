@@ -18,10 +18,6 @@ package com.nnasaki.springrest;
 
 import com.nnasaki.springrest.domain.Address;
 import com.nnasaki.springrest.domain.Customer;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
 import com.nnasaki.springrest.domain.CustomerRepository;
 import com.nnasaki.springrest.domain.EmailAddress;
 import org.junit.Test;
@@ -29,8 +25,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 
 /**
@@ -51,12 +51,13 @@ public class CustomerRepositoryIntegrationTest {
 
         EmailAddress email = new EmailAddress("alicia@keys.com");
 
-        Customer dave = new Customer("Alicia", "Keys");
-        dave.setEmailAddress(email);
-        dave.add(new Address("27 Broadway", "New York", "United States"));
+        Customer alicia = new Customer("Alicia", "Keys");
+        alicia.password = "password_test";
+        alicia.emailAddress = email;
+        alicia.add(new Address("27 Broadway", "San Francisco", "United States"));
 
-        Customer result = repository.save(dave);
-        assertThat(result.getId(), is(notNullValue()));
+        Customer result = repository.save(alicia);
+        assertThat(result.id, is(notNullValue()));
     }
 
     @Test
@@ -64,18 +65,17 @@ public class CustomerRepositoryIntegrationTest {
 
         EmailAddress email = new EmailAddress("dave@dmband.com");
         Customer result = repository.findByEmailAddress(email);
-        assertThat(result.getFirstname(), is("Dave"));
-        assertThat(result.getLastname(), is("Matthews"));
+        assertThat(result.firstname, is("Dave"));
+        assertThat(result.lastname, is("Matthews"));
     }
 
     @Test
-    public void preventsDuplicateEmail() {
+    public void findByCity() {
 
-        Customer dave = repository.findByEmailAddress(new EmailAddress("carter@dmband.com"));
+        List<Customer> customers = repository.findByAddresses_City("New York");
 
-        Customer anotherDave = new Customer("Carter", "Beauford");
-        anotherDave.setEmailAddress(dave.getEmailAddress());
+        assertThat(customers, hasSize(2));
+        assertThat(customers.get(0).firstname, is("Dave"));
 
-        repository.save(anotherDave);
     }
 }

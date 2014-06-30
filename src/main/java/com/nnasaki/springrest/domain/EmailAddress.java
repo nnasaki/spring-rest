@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  */
+@SuppressWarnings("UnusedDeclaration")
 @Embeddable
 public class EmailAddress {
 
@@ -54,11 +55,11 @@ public class EmailAddress {
      * Returns whether the given {@link String} is a valid {@link EmailAddress} which means you can safely instantiate the
      * class.
      *
-     * @param candidate
-     * @return
+     * @param candidate EmailAddress
+     * @return true or false
      */
     public static boolean isValid(String candidate) {
-        return candidate == null ? false : PATTERN.matcher(candidate).matches();
+        return candidate != null && PATTERN.matcher(candidate).matches();
     }
 
     /*
